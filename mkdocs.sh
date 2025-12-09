@@ -69,7 +69,6 @@ fi
 if [ -z "$INPUT_BUCKET_DIR" ]
 then
   INPUT_BUCKET_DIR="docs.powerdns.com"
-  valid_input=0
 fi
 
 if [ $valid_input -eq 0 ]
