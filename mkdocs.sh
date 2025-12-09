@@ -126,6 +126,6 @@ echo "${versionsData}" > "${PWD}/output/versions.json"
 
 $publish_script "${PWD}/output/versions.json" "$subdir"
 
-$publish_script "${PWD}/doc/html/index.html" "$subdir"
+$publish_script "/scripts/index.html" "$subdir"
 
 exit 0
