@@ -5,4 +5,4 @@ RUN pip install --no-cache-dir mkdocs-swagger-ui-tag && apk add --no-cache curl 
 RUN mkdir /scripts
 COPY mkdocs.sh publish_to_s3.sh index.html /scripts/
 
-ENTRYPOINT ["sh", "/scripts/mkdocs.sh"]
+ENTRYPOINT ["/scripts/mkdocs.sh"]
