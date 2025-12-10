@@ -6,7 +6,7 @@ information so that multiple copies of the docs can be maintained.
 ## Usage
 
 ```yaml
-- uses: pdns/pdns-publish-docs-action@v1
+- uses: PowerDNS/pdns-publish-docs-action@v1
   with:
     # The AWS access key id to use
     aws_access_key_id: ''
