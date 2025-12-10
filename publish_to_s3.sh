@@ -17,7 +17,7 @@
 set -e  # Exit immediately if a command exits with a non-zero status
 
 # Check if AWS CLI is installed
-if ! command -v aws &> /dev/null; then
+if ! command -v aws > /dev/null 2>&1; then
     echo "AWS CLI is not installed. Please install it and try again."
     exit 1
 fi
@@ -57,7 +57,8 @@ upload_to_s3() {
 upload_file_to_s3() {
     local file="$1"
     local dest_dir="$2"
-    local content_type=$(get_content_type "$file")
+    local content_type
+    content_type=$(get_content_type "$file")
     aws s3 cp "$file" "s3://${AWS_S3_BUCKET_DOCS}/${dest_dir}/$(basename "$file")" --content-type "$content_type" || {
         echo "Failed to upload $file to S3"
         exit 1
