@@ -22,47 +22,16 @@ if ! command -v aws > /dev/null 2>&1; then
     exit 1
 fi
 
-# Function to get content type based on file extension
-get_content_type() {
-    case "${1##*.}" in
-        html) echo "text/html" ;;
-        css)  echo "text/css" ;;
-        js)   echo "application/javascript" ;;
-        json) echo "application/json" ;;
-        png)  echo "image/png" ;;
-        jpg|jpeg) echo "image/jpeg" ;;
-        *)    echo "application/octet-stream" ;;
-    esac
-}
-
 # Function to upload file or directory to S3
 upload_to_s3() {
     local source_path="$1"
     local dest_dir="$2"
 
     if [ -d "$source_path" ]; then
-        for file in "$source_path"/*; do
-            if [ -d "$file" ]; then
-                upload_to_s3 "$file" "${dest_dir}/$(basename "$file")"
-            else
-                upload_file_to_s3 "$file" "${dest_dir}"
-            fi
-        done
+      aws s3 cp --recursive "$source_path" "s3://${AWS_S3_BUCKET_DOCS}/${dest_dir}/"
     else
-        upload_file_to_s3 "$source_path" "${dest_dir}"
+      aws s3 cp "$source_path" "s3://${AWS_S3_BUCKET_DOCS}/${dest_dir}/"
     fi
-}
-
-# Function to upload a single file to S3
-upload_file_to_s3() {
-    local file="$1"
-    local dest_dir="$2"
-    local content_type
-    content_type=$(get_content_type "$file")
-    aws s3 cp "$file" "s3://${AWS_S3_BUCKET_DOCS}/${dest_dir}/$(basename "$file")" --content-type "$content_type" || {
-        echo "Failed to upload $file to S3"
-        exit 1
-    }
 }
 
 # Function to invalidate CloudFront cache
