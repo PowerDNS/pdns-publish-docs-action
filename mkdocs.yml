@@ -3,6 +3,21 @@ site_url: https://example.com/
 nav:
   - Overview: index.md
 
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.top
+    - navigation.tracking
+    - navigation.sections
+    - navigation.footer
+    - toc.integrate
+    - toc.follow
+    - search.highlight
+    - search.share
+    - search.suggest
+
 extra:
   version:
     alias: true
