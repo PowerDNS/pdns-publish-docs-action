@@ -2,3 +2,8 @@ site_name: Example Documentation
 site_url: https://example.com/
 nav:
   - Overview: index.md
+
+extra:
+  version:
+    alias: true
+    provider: mike
