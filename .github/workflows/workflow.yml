@@ -3,7 +3,7 @@ on: [pull_request]
 jobs:
   push_docs:
     runs-on: ubuntu-latest
-    name: We test it locally
+    name: Test the action locally
     env:
       # Github.refname is wrong for pull requests - have to use head ref for them
       MYREF: ${{ github.event.pull_request && github.head_ref || github.ref_name }}
