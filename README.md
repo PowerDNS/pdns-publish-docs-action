@@ -40,3 +40,13 @@ All parameters are required except for `bucket_dir`.
 The action will build the mkdocs docs and publish them to S3, then invalidate the CloudFront distribution. 
 The versions.json file will be updated to include the new version. The "latest" version will be updated to point to the
 new version if that is the most recent, according to semver rules.
+
+## Testing
+
+The CI for this action will push some test docs to a test bucket.
+
+You can see the results here: https://d26lzo65kaqv8z.cloudfront.net/testdocs/ or https://d26lzo65kaqv8z.cloudfront.net/testdocs/<branch|version>/
+
+Your branch or tag should be reflected in the URL along with the version number, and previous versions.
+The "latest" version should always point to the most recent version (assuming semver rules). However, if
+you're just testing a branch, that probably won't update the latest link.
