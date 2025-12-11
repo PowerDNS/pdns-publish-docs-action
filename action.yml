@@ -16,15 +16,30 @@ inputs:
   aws_cloudfront_distribution_id:
     description: 'The CloudFront distribution ID (used to invalidate the cache so that the new content is immediately available)'
     required: true
-  mkdocs_file:
-    description: 'The location of the mkdocs.yml file'
-    required: true
   version_string:
-    description: 'The version of the docs. Must be a semver-style version string.'
-    required: true
+    description: 'The version of the docs. Should be a semver-style version string. Required if version_control is true'
+    required: false
+  mkdocs_file:
+    description: 'The location of the mkdocs.yml file - required if build_docs is true'
+    required: false
   bucket_subdir:
-    description: 'The sub directory of the documentation buket to put the built documentation'
-    required: true
+    description: 'The sub directory (under bucket_dir) of the documentation bucket to copy the documentation to. Only allowed if bucket_dir is not empty.'
+    required: false
+  bucket_dir:
+    description: 'The directory of the documentation bucket to copy the documentation to'
+    required: false
+    default: 'docs.powerdns.com'
+  build_docs:
+    description: 'Whether to build the docs using mkdocs, or just use an existing directory with the built docs in. If false, you must provide docs_dir input'
+    required: false
+    default: 'true'
+  docs_dir:
+    description: 'The location of an existing directory containing the built docs to be copied to S3 - required if build_docs is false'
+    required: false
+  version_control:
+    description: 'Whether to create multiple versions of the documentation in subdirectories and a versions.json file at the root. Cannot be true if build_docs is false'
+    required: false
+    default: 'true'
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -37,3 +52,7 @@ runs:
     - ${{ inputs.mkdocs_file}}
     - ${{ inputs.version_string}}
     - ${{ inputs.bucket_subdir}}
+    - ${{ inputs.bucket_dir}}
+    - ${{ inputs.build_docs}}
+    - ${{ inputs.docs_dir}}
+    - ${{ inputs.version_control}}
