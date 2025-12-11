@@ -32,7 +32,7 @@ jobs:
           mkdocs_file: "mkdocs.yml"
           bucket_subdir: "testdocs-noversion"
           version_control: "false"
-      - name: Push Docs (test building docs no versioning and no subdir)
+      - name: Push Docs (test not building docs no versioning and no subdir)
         uses: "./" # Uses an action in the root directory
         with:
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
