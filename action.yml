@@ -1,0 +1,39 @@
+name: 'PowerDNS Push Documentation Custom Github Action'
+description: 'Build mkdocs-style documentatation and push to AWS S3 Bucket'
+inputs:
+  aws_access_key_id:
+    description: 'The AWS S3 access key id'
+    required: true
+  aws_secret_access_key:
+    description: 'The AWS S3 secret access key'
+    required: true
+  aws_region:
+    description: 'The AWS region where the bucket is located'
+    required: true
+  aws_s3_bucket:
+    description: 'The name of the S3 bucket used for documentation'
+    required: true
+  aws_cloudfront_distribution_id:
+    description: 'The CloudFront distribution ID (used to invalidate the cache so that the new content is immediately available)'
+    required: true
+  mkdocs_file:
+    description: 'The location of the mkdocs.yml file'
+    required: true
+  version_string:
+    description: 'The version of the docs. Must be a semver-style version string.'
+    required: true
+  bucket_subdir:
+    description: 'The sub directory of the documentation buket to put the built documentation'
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.aws_access_key_id}}
+    - ${{ inputs.aws_secret_access_key}}
+    - ${{ inputs.aws_region}}
+    - ${{ inputs.aws_s3_bucket}}
+    - ${{ inputs.aws_cloudfront_distribution_id}}
+    - ${{ inputs.mkdocs_file}}
+    - ${{ inputs.version_string}}
+    - ${{ inputs.bucket_subdir}}

@@ -1,0 +1,22 @@
+on: [push]
+
+jobs:
+  push_docs:
+    runs-on: ubuntu-latest
+    name: Test the action locally
+    env:
+      # Github.refname is wrong for pull requests - have to use head ref for them
+      MYREF: ${{ github.event.pull_request && github.head_ref || github.ref_name }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Push Docs
+        uses: "./" # Uses an action in the root directory
+        with:
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: ${{ vars.AWS_REGION }}
+          aws_s3_bucket: ${{ vars.AWS_S3_BUCKET_DOCS }}
+          aws_cloudfront_distribution_id: ${{ vars.AWS_CLOUDFRONT_DISTRIBUTION_ID_DOCS }}
+          mkdocs_file: "mkdocs.yml"
+          version_string: "${{ env.MYREF }}"
+          bucket_subdir: "testdocs"
