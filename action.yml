@@ -25,6 +25,9 @@ inputs:
   bucket_subdir:
     description: 'The sub directory of the documentation buket to put the built documentation'
     required: true
+  bucket_dir:
+    description: 'The parent directory of the documentation buket to put the built documentation (defaults to docs.powerdns.com)'
+    required: false
 runs:
   using: 'docker'
   image: 'Dockerfile'
