@@ -8,7 +8,9 @@ jobs:
       # Github.refname is wrong for pull requests - have to use head ref for them
       MYREF: ${{ github.event.pull_request && github.head_ref || github.ref_name }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
+      - run: pip install mkdocs-material
+      - run: mkdir -p prebuilt_docs && mkdocs build -f mkdocs.yml -d prebuilt_docs
       - name: Push Docs (test building docs, with dir and subdir and versioning)
         uses: "./" # Uses an action in the root directory
         with:
