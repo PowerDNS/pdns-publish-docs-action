@@ -63,3 +63,7 @@ you're just testing a branch, that probably won't update the latest link.
 The second CI step results can be found here: [](https://d26lzo65kaqv8z.cloudfront.net/testdocs-noversion/)
 
 The third CI step results can be found here: [](https://d3qblx438jamtm.cloudfront.net/index.html)
+
+The fourth CI step results can be found here: [](https://d3qblx438jamtm.cloudfront.net/version/index.html)
+
+As above, the branch or tag should be reflected in the URL.
