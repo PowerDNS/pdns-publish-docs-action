@@ -44,3 +44,17 @@ jobs:
           version_control: "false"
           bucket_dir: "dnsdist.org"
           docs_dir: "prebuilt_docs"
+      - name: Push Docs (test not building docs with versioning and subdir)
+        uses: "./" # Uses an action in the root directory
+        with:
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: ${{ vars.AWS_REGION }}
+          aws_s3_bucket: ${{ vars.AWS_S3_BUCKET_DOCS }}
+          aws_cloudfront_distribution_id: ${{ vars.AWS_CLOUDFRONT_DISTRIBUTION_ID_DNSDIST }}
+          build_docs: "false"
+          version_control: "true"
+          bucket_dir: "dnsdist.org"
+          bucket_subdir: "version"
+          docs_dir: "prebuilt_docs"
+          version_string: "${{ env.MYREF }}"
