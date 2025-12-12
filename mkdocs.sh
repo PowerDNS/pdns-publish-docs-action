@@ -125,7 +125,7 @@ $publish_script "${docs_dir}" "${INPUT_BUCKET_DIR}${subdir:+/}${subdir}${version
 
 if [ "${INPUT_VERSION_CONTROL}" = "true" ] && [ "$(echo "$latestVersion" "$version" | awk '{if ($1 < $2) print 1;}')" != 0 ]; then
   echo "This version is newer than the latest version in S3, publishing this version to latest"
-  $publish_script "${docs_dir}" "${subdir}${subdir:+/}latest"
+  $publish_script "${docs_dir}" "${INPUT_BUCKET_DIR}${subdir:+/}${subdir}/latest"
   latestVersion="$version"
 
   # Build versions.json
