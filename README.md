@@ -41,7 +41,7 @@ information so that multiple copies of the docs can be maintained.
     # The location of an existing directory containing the built docs to be copied to S3 - required if build_docs is false
     docs_dir: ''
     
-    # Whether to create multiple versions of the documentation in subdirectories and a versions.json file at the root. Cannot be true if build_docs is false
+    # Whether to create multiple versions of the documentation in subdirectories and a versions.json file at the root. Must provide a version_str
     version_control: 'true'
 ```
 All parameters are required except for `bucket_dir`.
