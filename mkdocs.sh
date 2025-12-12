@@ -71,7 +71,7 @@ then
 fi
 if [ -n "$INPUT_BUCKET_SUBDIR" ] && [ -z "$INPUT_BUCKET_DIR" ]
 then
-  echo "Ennvironment variable INPUT_BUCKET_SUBDIR cannot be set when INPUT_BUCKET_DIR is not"
+  echo "Environment variable INPUT_BUCKET_SUBDIR cannot be set when INPUT_BUCKET_DIR is not"
   valid_input=0
 fi
 
