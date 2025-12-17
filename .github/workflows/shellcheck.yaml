@@ -6,6 +6,11 @@ jobs:
     name: ShellCheck
     runs-on: ubuntu-latest
     steps:
+      - name: Install specific ShellCheck version
+        run: |
+          wget https://github.com/koalaman/shellcheck/releases/download/v0.11.0/shellcheck-v0.11.0.linux.x86_64.tar.xz
+          tar -xf shellcheck-v0.11.0.linux.x86_64.tar.xz
+          sudo cp shellcheck-v0.11.0/shellcheck /usr/bin/
       - uses: actions/checkout@v4
       - name: Run ShellCheck
         run: find . -type f -name "*.sh" -exec shellcheck {} +
