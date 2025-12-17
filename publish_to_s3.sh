@@ -1,4 +1,5 @@
 #!/bin/sh
+# shellcheck shell=busybox
 
 # PowerDNS Documentation Publishing Script
 #

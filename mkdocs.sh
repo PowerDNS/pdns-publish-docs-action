@@ -1,4 +1,5 @@
 #!/bin/sh
+# shellcheck shell=busybox
 
 # Documentation Building Script - designed to be run as a GitHub Action
 #
@@ -131,6 +132,7 @@ if [ "${INPUT_VERSION_CONTROL}" = "true" ] && [ "$(echo "$latestVersion" "$versi
   # Build versions.json
   versionsData=$(echo "[]" | jq)
 
+  # shellcheck disable=SC3001
   while read -r docsVersion; do
     if [ "$docsVersion" != "" ] && [ "$docsVersion" != "latest" ]; then
       if [ "$docsVersion" = "$latestVersion" ]; then
