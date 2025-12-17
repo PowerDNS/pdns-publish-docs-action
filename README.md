@@ -23,17 +23,26 @@ information so that multiple copies of the docs can be maintained.
     # The CloudFront distribution id to invalidate (this ensures that the new docs are immediately available)
     aws_cloudfront_distribution_id: ''
 
-    # The mkdocs.yml file to use (this can include a path). It is relative to the root of the repo.
+    # The location of the mkdocs.yml file - required if build_docs is true
     mkdocs_file: ''
     
-    # The git ref to use for versioning. This should be a semver-style string, but it's not mandatory.
+    # The version of the docs. Should be a semver-style version string. Required if version_control is true
     version_string: ''
     
-    # The directory containing the mkdocs docs to publish. This is relative to the root of the repo.
-    bucket_dir: "docs.powerdns.com"
+    # The directory of the documentation bucket to copy the documentation to
+    bucket_dir: ''docs.powerdns.com''
     
-    # The subdirectory under bucket_dir to publish to, i.e. bucket_dir/bucket_subdir will be the path used. The action assumes that the path exists.
+    # The sub directory (under bucket_dir) of the documentation bucket to copy the documentation to. Only allowed if bucket_dir is not empty.
     bucket_subdir: ''
+
+    # Whether to build the docs using mkdocs, or just use an existing directory with the built docs in. If false, you must provide docs_dir input
+    build_docs: 'true'
+    
+    # The location of an existing directory containing the built docs to be copied to S3 - required if build_docs is false
+    docs_dir: ''
+    
+    # Whether to create multiple versions of the documentation in subdirectories and a versions.json file at the root. Must provide a version_str
+    version_control: 'true'
 ```
 All parameters are required except for `bucket_dir`.
 
@@ -45,8 +54,16 @@ new version if that is the most recent, according to semver rules.
 
 The CI for this action will push some test docs to a test bucket.
 
-You can see the results here: https://d26lzo65kaqv8z.cloudfront.net/testdocs/ or https://d26lzo65kaqv8z.cloudfront.net/testdocs/<branch|version>/
+You can see the results for the first CI step here: [](https://d26lzo65kaqv8z.cloudfront.net/testdocs/) or [](https://d26lzo65kaqv8z.cloudfront.net/testdocs/latest/)
 
 Your branch or tag should be reflected in the URL along with the version number, and previous versions.
 The "latest" version should always point to the most recent version (assuming semver rules). However, if
 you're just testing a branch, that probably won't update the latest link.
+
+The second CI step results can be found here: [](https://d26lzo65kaqv8z.cloudfront.net/testdocs-noversion/)
+
+The third CI step results can be found here: [](https://d3qblx438jamtm.cloudfront.net/index.html)
+
+The fourth CI step results can be found here: [](https://d3qblx438jamtm.cloudfront.net/version/index.html)
+
+As above, the branch or tag should be reflected in the URL.

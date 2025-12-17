@@ -47,15 +47,13 @@ invalidate_cloudfront() {
 publish_to_site() {
     local source_path="$1"
     local target_dir="${2:-}"
-    local site_dir="docs.powerdns.com"
 
-    local full_target_dir="${site_dir}/${target_dir}"
-    upload_to_s3 "$source_path" "$full_target_dir"
+    upload_to_s3 "$source_path" "$target_dir"
 
     local invalidation_path="/${target_dir}*"
     invalidate_cloudfront "$invalidation_path"
 
-    echo "Published from ${source_path} to docs.powerdns.com${target_dir:+/}${target_dir}"
+    echo "Published from ${source_path} to ${target_dir}"
     echo "Invalidated CloudFront cache for ${invalidation_path}"
 }
 
