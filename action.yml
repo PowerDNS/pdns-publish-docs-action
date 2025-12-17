@@ -1,5 +1,5 @@
 name: 'PowerDNS Push Documentation Custom Github Action'
-description: 'Build mkdocs-style documentatation and push to AWS S3 Bucket'
+description: 'Build mkdocs-style documentation and push to AWS S3 Bucket'
 inputs:
   aws_access_key_id:
     description: 'The AWS S3 access key id'
