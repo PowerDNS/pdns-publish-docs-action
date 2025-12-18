@@ -23,7 +23,7 @@ jobs:
           version_string: "${{ env.MYREF }}"
           bucket_subdir: "testdocs"
           bucket_dir: "docs.powerdns.com"
-      - name: Push Docs (test building docs and and subdir but no versioning)
+      - name: Push Docs (test building docs and subdir but no versioning)
         uses: "./" # Uses an action in the root directory
         with:
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
