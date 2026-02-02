@@ -91,7 +91,10 @@ mkdocs_file="${INPUT_MKDOCS_FILE}"
 version="${INPUT_VERSION_STRING}"
 subdir="${INPUT_BUCKET_SUBDIR}"
 
+invalidation_dir="/$subdir"
+
 publish_script="/scripts/publish_to_s3.sh"
+invalidation_script="/scripts/cloudfront_invalidate.sh"
 
 docs_dir=""
 if [ "${INPUT_BUILD_DOCS}" = "true" ]
@@ -124,6 +127,9 @@ fi
 echo "publish_to_s3 ${docs_dir} ${INPUT_BUCKET_DIR}${subdir:+/}${subdir}${version:+/}${version}"
 $publish_script "${docs_dir}" "${INPUT_BUCKET_DIR}${subdir:+/}${subdir}${version:+/}${version}"
 
+echo "cloudfront_invalidate $invalidation_dir"
+$invalidation_script --recursive "$invalidation_dir"
+
 if [ "${INPUT_VERSION_CONTROL}" = "true" ] && [ "$(echo "$latestVersion" "$version" | awk '{if ($1 < $2) print 1;}')" != 0 ]; then
   echo "This version is newer than the latest version in S3, publishing this version to latest"
   $publish_script "${docs_dir}" "${INPUT_BUCKET_DIR}${subdir:+/}${subdir}/latest"
@@ -147,7 +153,14 @@ if [ "${INPUT_VERSION_CONTROL}" = "true" ] && [ "$(echo "$latestVersion" "$versi
 
   $publish_script "${PWD}/output/versions.json" "${INPUT_BUCKET_DIR}${subdir:+/}${subdir}"
 
+  echo "cloudfront_invalidate $invalidation_dir${subdir:+/}versions.json"
+  $invalidation_script "$invalidation_dir${subdir:+/}versions.json"
+
   $publish_script "/scripts/index.html" "${INPUT_BUCKET_DIR}${subdir:+/}${subdir}"
+
+  echo "cloudfront_invalidate $invalidation_dir${subdir:+/}index.html"
+  $invalidation_script "$invalidation_dir${subdir:+/}index.html"
+
 
 fi
 
