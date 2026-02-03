@@ -3,17 +3,17 @@
 
 # PowerDNS Documentation Publishing Script
 #
-# This script uploads documentation to an S3 bucket and invalidates the CloudFront cache. This uses the AWS CLI.
+# This script uploads documentation to an S3 bucket. This uses the AWS CLI.
+# The script used to invalidate the cloudfront cache, but this is now done in a separate script.
 #
 # Environment Variables Required:
 # - AWS_ACCESS_KEY_ID: The AWS access key ID
 # - AWS_SECRET_ACCESS_KEY: The AWS secret access key
 # - AWS_REGION: The AWS region where resources are located
 # - AWS_S3_BUCKET_DOCS: The name of the S3 bucket for documentation
-# - AWS_CLOUDFRONT_DISTRIBUTION_ID_DOCS: The CloudFront distribution ID
 #
 # Usage:
-# ./publish.sh <SOURCE_PATH> [TARGET_DIR]
+# ./publish_to_s3.sh <SOURCE_PATH> [TARGET_DIR]
 
 set -e  # Exit immediately if a command exits with a non-zero status
 
@@ -35,15 +35,6 @@ upload_to_s3() {
     fi
 }
 
-# Function to invalidate CloudFront cache
-invalidate_cloudfront() {
-    local invalidation_path="$1"
-    aws cloudfront create-invalidation --distribution-id "${AWS_CLOUDFRONT_DISTRIBUTION_ID_DOCS}" --paths "${invalidation_path}" || {
-        echo "Failed to create CloudFront invalidation for ${invalidation_path}"
-        exit 1
-    }
-}
-
 # Main function to publish to site
 publish_to_site() {
     local source_path="$1"
@@ -51,11 +42,7 @@ publish_to_site() {
 
     upload_to_s3 "$source_path" "$target_dir"
 
-    local invalidation_path="/${target_dir}*"
-    invalidate_cloudfront "$invalidation_path"
-
     echo "Published from ${source_path} to ${target_dir}"
-    echo "Invalidated CloudFront cache for ${invalidation_path}"
 }
 
 # Main script execution

@@ -91,7 +91,10 @@ mkdocs_file="${INPUT_MKDOCS_FILE}"
 version="${INPUT_VERSION_STRING}"
 subdir="${INPUT_BUCKET_SUBDIR}"
 
+invalidation_dir="/$subdir"
+
 publish_script="/scripts/publish_to_s3.sh"
+invalidation_script="/scripts/cloudfront_invalidate.sh"
 
 docs_dir=""
 if [ "${INPUT_BUILD_DOCS}" = "true" ]
@@ -150,5 +153,8 @@ if [ "${INPUT_VERSION_CONTROL}" = "true" ] && [ "$(echo "$latestVersion" "$versi
   $publish_script "/scripts/index.html" "${INPUT_BUCKET_DIR}${subdir:+/}${subdir}"
 
 fi
+
+echo "cloudfront_invalidate $invalidation_dir"
+$invalidation_script --recursive "$invalidation_dir"
 
 exit 0
