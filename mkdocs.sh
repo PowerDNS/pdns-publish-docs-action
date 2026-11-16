@@ -146,6 +146,7 @@ if [ "${INPUT_VERSION_CONTROL}" = "true" ] && [ "$(echo "$latestVersion" "$versi
     fi
   done < <(aws s3 ls s3://"${AWS_S3_BUCKET_DOCS}"/"${INPUT_BUCKET_DIR}${subdir:+/}${subdir}"/ | awk '{print $2}' | awk -F '/' '/\// {print $1}')
 
+  mkdir -p "${PWD}/output"
   echo "${versionsData}" > "${PWD}/output/versions.json"
 
   $publish_script "${PWD}/output/versions.json" "${INPUT_BUCKET_DIR}${subdir:+/}${subdir}"
